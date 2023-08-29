@@ -1,4 +1,28 @@
 import { useEffect, useState } from "react"
+import Article from "./components/Article"
+import styled from "styled-components"
+
+const Header=styled.nav`
+display: flex;
+background-color: #ff6600;
+align-items: center;
+gap: 5px;
+  a{
+    color: black;
+    text-decoration: none;
+  }
+  a:first-of-type{
+    color: white;
+    font-weight: bold;
+    border: solid white 2px;
+    margin: 2px;
+    width: 20px;
+    height: 20px;
+  }
+  a:nth-of-type(2){
+    font-weight: bold;
+  }
+`
 
 function App() {
   const [articles,setArticles]=useState([])
@@ -24,13 +48,25 @@ function App() {
     setFilteredArticles(articles.filter(article=>article.title.toLowerCase().includes(textInput.toLowerCase())))
   }
 
+  useEffect(()=>console.log(articles),[articles])
+
   return (
     <>
+    <Header>
+      <a>Y</a> <a>Hacker News</a> <p> | </p>
+      <a>new</a><p> | </p>
+      <a>past</a><p> | </p>
+      <a>comments</a><p> | </p>
+      <a>ask</a><p> | </p>
+      <a>show</a><p> | </p>
+      <a>jobs</a> <p> | </p>
+      <a>submit</a>
+    </Header>
       {filteredArticles.length?
         <>
-          <ol>
-            {filteredArticles.map((article,i)=><a key={i} href={article.url}><li>{article.title}</li></a>)}
-          </ol>
+          <ul>
+            {filteredArticles.map((article,i)=><Article article={article} key={i} i={i}/>)}
+          </ul>
         </>
       :<p>no articles</p>}
       <form onSubmit={handleSearch}>
