@@ -34,13 +34,13 @@ function App() {
   },[])
   async function loadNews(){
     const res=await fetch("https://hacker-news.firebaseio.com/v0/topstories.json")
-    const data=await res.json()
-    const top20=data.slice(0,20)
-    const responses=await top20.map(id=>{
-      return fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
-        .then(res=>res.json())
-    })
-    Promise.all(responses).then(response=>{setArticles(response),setFilteredArticles(response)})
+    const ids=await res.json()
+    const top20ids=ids.slice(0,20)
+    const data=await Promise.all(top20ids.map(id=>fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
+      .then(res=>res.json())
+    ))
+    setArticles(data)
+    setFilteredArticles(data)
   }
 
   const handleSearch=(e)=>{
@@ -48,7 +48,7 @@ function App() {
     setFilteredArticles(articles.filter(article=>article.title.toLowerCase().includes(textInput.toLowerCase())))
   }
 
-  useEffect(()=>console.log(articles),[articles])
+  // useEffect(()=>console.log(articles),[articles])
 
   return (
     <>

@@ -28,7 +28,7 @@ function Article({article, i}){
         <ArticleCSS>
             <p>
                 <a href={article.url}>{i+1}. {article.title} </a>
-                <span>({article.url.split("/")[2]})</span>
+                <span>({article.url?article.url.split("/")[2]:""})</span>
             </p>
             <p>
                 <a>{article.score} points </a> 
